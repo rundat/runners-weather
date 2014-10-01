@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8">
+  <title>2-days AQI and weather forecast for runners.</title>
+  <link rel="stylesheet" href="/css/runti.css">
+  <script src="/js/aqi.js"></script>
+  <script src="/js/stations-selection.js"></script>
+</head>
+
+<body>
+
+  <div id="configuration">
+    <!-- Configuration form -->
+    <form>
+      <label>
+        Latitude:
+        <input type="text" name="latitude" />
+        (in degrees)
+      </label>
+      <label>
+        Longitude:
+        <input type="text" name="longitude" />
+        (in degrees)
+      </label>
+      <label>
+        Radius:
+        <input type="text" name="radius" />
+        (in kilometers)
+      </label>
+    </form>
+  </div>
+
+  <div class="forecast">
+  </div>
+
+</body>
+
+</html>
