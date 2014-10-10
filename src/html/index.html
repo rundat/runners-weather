@@ -4,31 +4,34 @@
 <head>
   <meta charset="utf-8">
   <title>2-days AQI and weather forecast for runners.</title>
-  <link rel="stylesheet" href="/css/runti.css">
   <script src="/js/aqi.js"></script>
   <script src="/js/stations-selection.js"></script>
+  <script src="/js/form-processing.js"></script>
+  <script src="/js/display.js"></script>
 </head>
 
 <body>
 
   <div id="configuration">
     <!-- Configuration form -->
-    <form>
+    <form name="config">
       <label>
         Latitude:
-        <input type="text" name="latitude" />
+        <input type="text" name="latitude" value="48.8534100"/>
         (in degrees)
       </label>
       <label>
         Longitude:
-        <input type="text" name="longitude" />
+        <input type="text" name="longitude" value="2.3488000"/>
         (in degrees)
       </label>
       <label>
         Radius:
-        <input type="text" name="radius" />
+        <input type="text" name="radius" value="10"/>
         (in kilometers)
       </label>
+      <input type="button" value="submit"
+             onclick="processForm(document.forms['config'])" />
     </form>
   </div>
 
