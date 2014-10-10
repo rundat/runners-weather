@@ -5,15 +5,16 @@ function selectStations (lat, lon, radius)
         var req = new XMLHttpRequest ();
         req.open ( 'GET', '/data/stations.json', false );
         req.setRequestHeader ('Content-type', 'application/json') ;
-
+        var json ;
         req.onreadystatechange = function ()
         {
             if ( req.readyState == 4 && req.status == 200 )
             {
-                return JSON.parse ( req.responseText );
+                json = JSON.parse ( req.responseText );
             }
         }
         req.send () ;
+        return json ;
     } ;
 
     /* Returned value is in kilometers. x is lat, y is lon. */
@@ -21,9 +22,8 @@ function selectStations (lat, lon, radius)
     {
         function rad (degrees)
         {
-            return degrees * Math.PI / 180 ;
+            return degrees * (Math.PI / 180) ;
         }
-
         var a = Math.pow (Math.sin (rad (x2 - x1) / 2), 2)
             + ( Math.pow (Math.sin (rad (y2 - y1) / 2), 2)
                 * Math.cos (rad (x1))
@@ -37,11 +37,11 @@ function selectStations (lat, lon, radius)
     var stations = getStationsJSON () ;
     var selected = [] ;
 
-    for (var i = 0, len = stations.length; i < len; i++)
+    for (s in stations)
     {
-        var station = stations[i] ;
-        if (distance (station.latitude, lat, station.longitude, lon)
-            < radius)
+        var station = stations [s] ;
+        var d = distance (station.latitude, station.longitude, lat, lon) ;
+        if (d < radius)
         {
             selected.push (station) ;
         }
