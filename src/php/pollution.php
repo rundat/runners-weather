@@ -2,12 +2,10 @@
 
 $DATA_FILE = 'pollution.json' ;
 
-function serveData ()
+function loadData ()
 {
     global $DATA_FILE ;
-    header('Content-type: application/json') ;
-    $data = file_get_contents ($DATA_FILE) ;
-    return $data && print ($data) ;
+    return unserialize (file_get_contents ($DATA_FILE)) ;
 }
 
 function updateData ()
@@ -19,7 +17,9 @@ function updateData ()
     $json = curl_exec ($ch) ;
     curl_close ($ch) ;
 
-    return file_put_contents ($DATA_FILE, $json)
+    $pollution = json_decode ($json, true) ;
+
+    return file_put_contents ($DATA_FILE, serialize ($pollution))
     || (unlink ($DATA_FILE) && false) ;
 
 }
@@ -32,6 +32,10 @@ function isUpToDate ()
 }
 
 /* Main */
-return ((isUpToDate () || updateData ()) && serveData ())
+if (!isUpToDate ())
+{
+    updateData () ;
+}
+$POLLUTION = loadData () ;
 
 ?>
