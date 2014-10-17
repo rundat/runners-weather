@@ -6,9 +6,8 @@ require ('aqi.php') ;
 
 function filterData ($lat, $lon, $radius)
 {
-    global $POLLUTION ;
-    $stations = stations ($lat, $lon, $radius) ;
-    $pollution = $POLLUTION ;
+    $stations = Stations :: selectStations ($lat, $lon, $radius) ;
+    $pollution = Pollution :: getPollution () ;
     $selected = [] ;
 
     foreach ($stations as $i => $station)
@@ -27,10 +26,10 @@ function toAQI ($pollution)
     foreach ($pollution as $pollutant => $conc)
     {
         $aqi [$pollutant] =
-        [ AQI ($pollutant, max (array_column ($conc, 0))),
-          AQI ($pollutant, max (array_column ($conc, 1))),
-          AQI ($pollutant, max (array_column ($conc, 2))),
-          AQI ($pollutant, max (array_column ($conc, 3))) ] ;
+        [ AQI :: computeAQI ($pollutant, max (array_column ($conc, 0))),
+          AQI :: computeAQI ($pollutant, max (array_column ($conc, 1))),
+          AQI :: computeAQI ($pollutant, max (array_column ($conc, 2))),
+          AQI :: computeAQI ($pollutant, max (array_column ($conc, 3))) ] ;
     }
     return $aqi ;
 }
@@ -46,11 +45,5 @@ header('Content-type: application/json') ;
 $runners_weather ['date'] = date ('Y-m-d', time ()) ;
 
 print (json_encode (toAQI ($data ['pollution']))) ;
-/*
-$conc = array_map ('max', $daily ['pollution']) ;
 
-$runners_weather ['weather'] = [] ;
-
-print (json_encode ($runners_weather)) ;
-*/
 ?>
